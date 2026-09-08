@@ -594,26 +594,28 @@ fetch(`${ALUMNI_CSV_URL}&t=${Date.now()}`)
   .catch(err => console.error('Failed to load alumni:', err));
 
 function renderAlumni(alumni) {
-  const track = document.getElementById('alumni-track');
-  track.innerHTML = '';
+  const container = document.getElementById('alumni-names');
+  container.innerHTML = '';
 
-  // duplicate cards for seamless infinite scroll
-  const allCards = [...alumni, ...alumni];
+  // create both sets
+  const createSet = () => {
+    alumni.forEach(person => {
+      const name = document.createElement('p');
+      name.className = 'alumni-name-item';
+      name.textContent = person.Name;
+      container.appendChild(name);
+    });
+  };
 
-  allCards.forEach(person => {
-    const card = document.createElement('div');
-    card.className = 'alumni-card';
-    card.innerHTML = `
-      <div class="alumni-photo">
-        <img src="images/alumni/${person.Photo}" alt="${person.Name}" loading="lazy" />
-      </div>
-      <div class="alumni-info">
-        <p class="alumni-name">${person.Name}</p>
-        <p class="alumni-role">${person.CurrentRole}</p>
-        <p class="alumni-quote">"${person.Quote}"</p>
-      </div>
-    `;
-    track.appendChild(card);
+  createSet(); // first set
+  createSet(); // duplicate — exact copy for seamless loop
+
+  // set animation duration based on content width for consistent speed
+  const speed = 50; // pixels per second
+  requestAnimationFrame(() => {
+    const totalWidth = container.scrollWidth / 2; // width of one set
+    const duration = totalWidth / speed;
+    container.style.animationDuration = `${duration}s`;
   });
 }
 
