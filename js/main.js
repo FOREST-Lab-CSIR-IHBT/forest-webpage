@@ -353,7 +353,7 @@ document.querySelector('.team-grid').addEventListener('wheel', (e) => {
 
 // ── PUBLICATIONS ──
 const PUBLICATIONS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKibTTUSsWczy9nZ7RmtSXFHMb6h1AjQOgM8gTgs603dxCLNP7Azsd-AZ5pddK5H0TYegCeGqBNPxK/pub?gid=56861099&single=true&output=csv';
-const PUBS_PER_PAGE = window.innerWidth <= 768 ? 4 : 5;
+const PUBS_PER_PAGE = 5;
 let publicationsData = [];
 let filteredPubs = [];
 let currentPubPage = 1;
@@ -403,13 +403,18 @@ document.getElementById('pub-clear-filters').addEventListener('click', () => {
   applyFilters();
 });
 
+function getPageSize() {
+  return window.innerWidth <= 768 ? 4 : PUBS_PER_PAGE;
+}
+
 function renderPubPage(page) {
+  const pageSize = getPageSize();
   currentPubPage = page;
   const list = document.getElementById('pub-list');
   list.innerHTML = '';
 
-  const start = (page - 1) * PUBS_PER_PAGE;
-  const pageItems = filteredPubs.slice(start, start + PUBS_PER_PAGE);
+  const start = (page - 1) * pageSize;
+  const pageItems = filteredPubs.slice(start, start + pageSize);
 
   if (pageItems.length === 0) {
     list.innerHTML = '<p class="pub-empty">No publications match your filters.</p>';
@@ -435,12 +440,14 @@ function renderPubPage(page) {
 }
 
 function renderPagination() {
-  const totalPages = Math.ceil(filteredPubs.length / PUBS_PER_PAGE);
+  const pageSize = getPageSize();
+  const totalPages = Math.ceil(filteredPubs.length / pageSize);
   const nav = document.getElementById('pub-pagination');
   nav.innerHTML = '';
 
   if (totalPages <= 1) return;
 
+  // prev button
   const prevBtn = document.createElement('button');
   prevBtn.className = 'pub-page-nav';
   prevBtn.textContent = '← Prev';
@@ -448,14 +455,33 @@ function renderPagination() {
   prevBtn.addEventListener('click', () => renderPubPage(currentPubPage - 1));
   nav.appendChild(prevBtn);
 
+  // page buttons with sliding window
+  const delta = 2; // pages shown on each side of current
+  const range = [];
   for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPubPage - delta && i <= currentPubPage + delta)) {
+      range.push(i);
+    }
+  }
+
+  let prev = 0;
+  range.forEach(i => {
+    if (prev && i - prev > 1) {
+      const dots = document.createElement('span');
+      dots.textContent = '...';
+      dots.style.color = 'var(--color-muted)';
+      dots.style.padding = '0 0.25rem';
+      nav.appendChild(dots);
+    }
     const btn = document.createElement('button');
     btn.className = 'pub-page-btn' + (i === currentPubPage ? ' active' : '');
     btn.textContent = i;
     btn.addEventListener('click', () => renderPubPage(i));
     nav.appendChild(btn);
-  }
+    prev = i;
+  });
 
+  // next button
   const nextBtn = document.createElement('button');
   nextBtn.className = 'pub-page-nav';
   nextBtn.textContent = 'Next →';
