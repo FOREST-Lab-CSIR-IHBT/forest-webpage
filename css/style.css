@@ -1413,13 +1413,15 @@ body {
 }
 
 .film-grid {
-  background: #111;
+  background: #0d1a0d;
   padding: 5px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, minmax(10px,1fr));
+  grid-template-rows: repeat(3, 1fr);
   gap: 4px;
-  width: clamp(250px, 32vw, 600px);
+  width: clamp(300px, 38vw, 552px);
+  height: clamp(264px, 50vh, 504px);
+  border: 1px solid #2a3d2a;
 }
 
 .film-slot {

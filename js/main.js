@@ -492,7 +492,7 @@ function renderPagination() {
 
 // ── BEYOND SCIENCE ──
 const BEYOND_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKibTTUSsWczy9nZ7RmtSXFHMb6h1AjQOgM8gTgs603dxCLNP7Azsd-AZ5pddK5H0TYegCeGqBNPxK/pub?gid=1371581164&single=true&output=csv';
-const STRIP_COUNT = 12;
+const STRIP_COUNT = 9;
 const TOTAL_PHOTOS = 20;
 let beyondPhotos = [];
 let screenIdx = 0;
