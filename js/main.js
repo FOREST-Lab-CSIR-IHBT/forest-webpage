@@ -362,7 +362,7 @@ fetch(`${PUBLICATIONS_CSV_URL}&t=${Date.now()}`)
   .then(res => res.text())
   .then(csv => {
     const rows = parseCSV(csv);
-    publicationsData = rows.sort((a, b) => b.Year - a.Year);
+    publicationsData = rows.reverse().sort((a, b) => b.Year - a.Year);
     filteredPubs = publicationsData;
     populateYearFilter();
     renderPubPage(1);
