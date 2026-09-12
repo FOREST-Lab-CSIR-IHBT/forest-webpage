@@ -257,7 +257,19 @@ document.querySelector('.incharge-card').addEventListener('click', () => {
 
 function openMemberOverlay(index) {
   const data = memberData[index];
-  document.getElementById('overlay-member-photo').src = data.photo;
+
+  const setImg = (id, src) => {
+    const img = document.getElementById(id);
+    img.classList.remove('loaded');
+    img.src = src;
+    img.onload = () => img.classList.add('loaded');
+  };
+
+  setImg('overlay-member-photo', data.photo);
+  setImg('overlay-field-1', data.fieldPhoto1);
+  setImg('overlay-field-2', data.fieldPhoto2);
+  setImg('overlay-field-3', data.fieldPhoto3);
+
   document.getElementById('overlay-member-photo').alt = data.name;
   document.getElementById('overlay-member-name').textContent = data.name;
   document.getElementById('overlay-member-role').textContent = data.role;
@@ -265,11 +277,8 @@ function openMemberOverlay(index) {
   document.getElementById('overlay-member-background').textContent = data.background;
   document.getElementById('overlay-member-current').textContent = data.currentWork;
   document.getElementById('overlay-member-funfact').textContent = data.funFact;
-  document.getElementById('overlay-field-1').src = data.fieldPhoto1;
-  document.getElementById('overlay-field-2').src = data.fieldPhoto2;
-  document.getElementById('overlay-field-3').src = data.fieldPhoto3;
   memberOverlay.classList.add('active');
-} 
+}
 
 memberOverlayClose.addEventListener('click', () => memberOverlay.classList.remove('active'));
 memberOverlay.addEventListener('click', (e) => {
@@ -550,11 +559,13 @@ function renderFilmStrip(animateFirst) {
 function updateCameraScreen(animate) {
   const p = beyondPhotos[screenIdx];
   const img = document.getElementById('screen-img');
+  img.classList.remove('loaded');
   if (animate) {
     img.classList.add('fade-in');
     setTimeout(() => img.classList.remove('fade-in'), 300);
   }
   img.src = p.src;
+  img.onload = () => img.classList.add('loaded');
   document.getElementById('screen-cap').textContent = p.caption;
   document.getElementById('screen-num').textContent =
     String(screenIdx + 1).padStart(2, '0') + '/' + beyondPhotos.length;

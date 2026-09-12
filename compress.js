@@ -2,21 +2,36 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-const inputDir = './images/gallery';
-const outputDir = './images/gallery-compressed';
+const jobs = [
+  {
+    inputDir: './images/team',
+    outputDir: './images/team-compressed',
+    width: 800,
+    height: 600,
+    quality: 70
+  },
+  {
+    inputDir: './images/beyond',
+    outputDir: './images/beyond-compressed',
+    width: 600,
+    height: 600,
+    quality: 70
+  }
+];
 
-if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+jobs.forEach(job => {
+  if (!fs.existsSync(job.outputDir)) fs.mkdirSync(job.outputDir, { recursive: true });
 
-const files = fs.readdirSync(inputDir).filter(f => f.toLowerCase().endsWith('.jpg'));
+  const files = fs.readdirSync(job.inputDir).filter(f => f.toLowerCase().endsWith('.jpg'));
+  console.log(`Found ${files.length} images in ${job.inputDir}`);
 
-console.log(`Found ${files.length} images. Processing...`);
-
-Promise.all(files.map(file => {
-  return sharp(path.join(inputDir, file))
-    .resize(1200, 800, { fit: 'cover', position: 'center' })
-    .jpeg({ quality: 75 })
-    .toFile(path.join(outputDir, file))
-    .then(() => console.log(`✓ ${file}`));
-})).then(() => {
-  console.log('All done! Compressed images are in gallery-compressed/');
-}).catch(err => console.error(err));
+  Promise.all(files.map(file => {
+    return sharp(path.join(job.inputDir, file))
+      .resize(job.width, job.height, { fit: 'cover', position: 'center' })
+      .jpeg({ quality: job.quality })
+      .toFile(path.join(job.outputDir, file))
+      .then(() => console.log(`✓ ${file}`));
+  })).then(() => {
+    console.log(`Done with ${job.inputDir}`);
+  }).catch(err => console.error(err));
+});

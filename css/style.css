@@ -649,6 +649,20 @@ body {
   justify-content: center;
 }
 
+/* ── BLUR-UP LOADING EFFECT ── */
+.member-overlay-photos img,
+.cam-screen img {
+  filter: blur(8px);
+  opacity: 0.5;
+  transition: filter 0.4s ease, opacity 0.4s ease;
+}
+
+.member-overlay-photos img.loaded,
+.cam-screen img.loaded {
+  filter: blur(0);
+  opacity: 1;
+}
+
 .overlay-close {
   position: absolute;
   top: 1.25rem;
