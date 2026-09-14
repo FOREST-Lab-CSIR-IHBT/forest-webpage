@@ -4,7 +4,7 @@ const path = require('path');
 
 const dirs = [
   { dir: './images/team', width: 800, height: 1000, quality: 70, maxSize: 300000, fit: 'inside' },
-  { dir: './images/beyond', width: 600, height: 600, quality: 70, maxSize: 200000, fit: 'cover' },
+  { dir: './images/beyond', width: 600, height: 600, quality: 70, maxSize: 0, fit: 'inside' },
   { dir: './images/gallery', width: 1200, height: 800, quality: 75, maxSize: 400000, fit: 'cover' },
 ];
 
