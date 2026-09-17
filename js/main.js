@@ -1,20 +1,6 @@
 // ── IMAGE POOL ──
 const totalImages = 86;
 const imagePool = Array.from({ length: totalImages }, (_, i) => `images/gallery/${i + 1}.jpg`);
-// shuffle array
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-shuffle(imagePool);
-
-function imgPath(path) {
-  return path.toLowerCase();
-}
 
 // ── SLIDESHOW ──
 function createSlideshow(containerEl, startIndex) {
@@ -27,6 +13,7 @@ function createSlideshow(containerEl, startIndex) {
   img2.classList.add('slide-img');
 
   img1.src = imagePool[current];
+  img1.onerror = () => console.error(`Failed to load: ${imagePool[current]}`);
   containerEl.appendChild(img1);
   containerEl.appendChild(img2);
 
@@ -35,6 +22,7 @@ function createSlideshow(containerEl, startIndex) {
     const next = img1.classList.contains('active') ? img2 : img1;
     const prev = img1.classList.contains('active') ? img1 : img2;
     next.src = imagePool[current];
+    next.onerror = () => console.error(`Failed to load: ${imagePool[current]}`);
     next.onload = () => {
       next.classList.add('active');
       prev.classList.remove('active');
@@ -42,9 +30,10 @@ function createSlideshow(containerEl, startIndex) {
   }, 5000);
 }
 
-// initialise all slideshow panels
+// initialise slideshow panels
 document.querySelectorAll('.slideshow-panel').forEach((panel, i) => {
-  createSlideshow(panel, i * 7);
+  if (window.innerWidth <= 768 && i > 0) return; // skip second slideshow on mobile
+  createSlideshow(panel, i === 0 ? 0 : 42);
 });
 
 // ── TEAM DATA ──
