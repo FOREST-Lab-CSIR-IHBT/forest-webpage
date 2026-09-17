@@ -252,6 +252,8 @@ function openMemberOverlay(index) {
     img.classList.remove('loaded');
     img.src = src;
     img.onload = () => img.classList.add('loaded');
+    img.style.cursor = 'pointer';
+    img.onclick = () => openLightbox(src, '');
   };
 
   setImg('overlay-member-photo', data.photo);
@@ -260,6 +262,7 @@ function openMemberOverlay(index) {
   setImg('overlay-field-3', data.fieldPhoto3);
 
   document.getElementById('overlay-member-photo').alt = data.name;
+  document.getElementById('overlay-member-photo').onclick = () => openLightbox(data.photo, data.name);
   document.getElementById('overlay-member-name').textContent = data.name;
   document.getElementById('overlay-member-role').textContent = data.role;
   document.getElementById('overlay-member-bio').textContent = data.bio;
@@ -297,6 +300,7 @@ let isScrolling = false;
 
 window.addEventListener('wheel', (e) => {
   if (window.innerWidth <= 768) return; // disable wheel snap on mobile
+  if (lightbox.classList.contains('active')) return;
   if (e.target.closest('.team-grid') || e.target.closest('.member-overlay-card') || e.target.closest('.pub-pagination') || e.target.closest('.beyond-pagination') || e.target.closest('.pub-filter-card') || e.target.closest('.team-pagination-mobile')){
   return;
 }
@@ -698,4 +702,25 @@ internalScrollContainers.forEach(selector => {
   el.addEventListener('touchend', (e) => {
     e.stopPropagation();
   }, { passive: true });
+});
+
+// ── LIGHTBOX ──
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || '';
+  lightbox.classList.add('active');
+}
+
+lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) lightbox.classList.remove('active');
+});
+
+// close on escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') lightbox.classList.remove('active');
 });
