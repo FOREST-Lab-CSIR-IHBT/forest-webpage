@@ -530,9 +530,6 @@ function renderFilmStrip(animateFirst) {
   grid.innerHTML = '';
 
   for (let i = 0; i < STRIP_COUNT; i++) {
-    // strip shows the PREVIOUS photos behind the current screen photo
-    // slot 0 = most recently captured (screenIdx - 1)
-    // slot 14 = oldest visible (screenIdx - STRIP_COUNT)
     const idx = ((screenIdx - 1 - i) % TOTAL_PHOTOS + TOTAL_PHOTOS) % TOTAL_PHOTOS;
     const slot = document.createElement('div');
     slot.className = 'film-slot' + (i === 0 && animateFirst ? ' new-slot' : '');
@@ -540,6 +537,8 @@ function renderFilmStrip(animateFirst) {
     img.src = beyondPhotos[idx].src;
     img.alt = beyondPhotos[idx].caption;
     img.loading = 'lazy';
+    img.style.cursor = 'pointer';
+    img.onclick = () => openLightbox(beyondPhotos[idx].src, beyondPhotos[idx].caption);
     const num = document.createElement('div');
     num.className = 'slot-num';
     num.textContent = String(idx + 1).padStart(2, '0');
@@ -558,6 +557,8 @@ function updateCameraScreen(animate) {
     setTimeout(() => img.classList.remove('fade-in'), 300);
   }
   img.src = p.src;
+  img.style.cursor = 'pointer';
+  img.onclick = () => openLightbox(p.src, p.caption);
   img.onload = () => img.classList.add('loaded');
   document.getElementById('screen-cap').textContent = p.caption;
   document.getElementById('screen-num').textContent =
