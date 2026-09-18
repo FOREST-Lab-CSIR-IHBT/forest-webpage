@@ -110,7 +110,7 @@ body {
 .cover-tagline {
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 1000;
-  color: var(--color-muted);
+  color: var(--color-accent);
   letter-spacing: 0.02em;
   margin-left: 2rem;
 }
