@@ -1680,6 +1680,18 @@ body {
   }
 }
 
+@media (max-height: 768px) and (min-width: 769px) {
+  .cover-logo {
+    width: clamp(250px, 30vw, 400px);
+    margin-bottom: -12rem;
+    margin-top: 5rem;
+    margin-left: -0.5rem;
+  }
+
+  .cover-content {
+    margin-top: -15vh;
+  }
+}
 
 @media (max-width: 768px) {
 
