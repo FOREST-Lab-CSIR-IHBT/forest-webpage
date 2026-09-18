@@ -1785,6 +1785,35 @@ body {
     overflow: hidden;
   }
 
+  @media (max-width: 376px) {
+    .cover-logo {
+      width: clamp(90px, 45vw, 180px);
+      margin-bottom: 5rem;
+      margin-top: 1.5rem;
+    }
+
+    .cover-acronym {
+      font-size: clamp(0.8rem, 3.5vw, 1.1rem);
+      margin-left: 0.5rem;
+      padding-top: 1rem;
+    }
+  }
+
+  @media (max-width: 426px) {
+    .cover-logo {
+      width: clamp(100px, 50vw, 200px);
+      margin-bottom: -3rem;
+      margin-top: 2rem;
+      padding-left:0.5rem;
+    }
+
+    .cover-acronym {
+      font-size: clamp(0.8rem, 3.5vw, 1.1rem);
+      margin-left: 0.5rem;
+      padding-top: 2rem;
+    }
+  }
+
   .cover-content {
     padding: 1.5rem;
     margin-top: -20vh;
