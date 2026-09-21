@@ -506,7 +506,7 @@ body {
 .member-role {
   font-size: 0.75rem;
   font-weight: 400;
-  color: var(--color-accent);
+  color: var(--color-muted);
   line-height: 1.2;
 }
 
