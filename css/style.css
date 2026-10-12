@@ -1811,6 +1811,11 @@ body {
     }
   }
 
+  @keyframes scrollAlumniVertical {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+
   @media (max-width: 426px) {
     .cover-logo {
       width: clamp(100px, 50vw, 200px);
@@ -2225,11 +2230,6 @@ body {
     grid-template-rows: none;
     width: 100%;
     animation: scrollAlumniVertical 30s linear infinite !important;
-  }
-
-  @keyframes scrollAlumniVertical {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-50%); }
   }
 
   .alumni-card {
