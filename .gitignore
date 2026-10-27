@@ -7,3 +7,6 @@ Thumbs.db
 
 # Misc
 *.log
+
+# Dependencies
+node_modules/
